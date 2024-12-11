@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 
 BASE_INPUT = "./machine_learning/dataset_builder/resources/sample_yolo_data"
-SELECTED = "/knife"
+SELECTED = "/paintbrush"
 INPUT_FOLDER = BASE_INPUT + SELECTED
 OUTPUT_FOLDER = "machine_learning/dataset_builder/resources/annotated"
 WIDTH = 640

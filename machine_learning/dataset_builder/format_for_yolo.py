@@ -3,7 +3,6 @@ import cv2
 import os
 import pickle
 import numpy as np
-import xml.etree.ElementTree as ET
 from pathlib import Path
 import random
 
@@ -160,6 +159,7 @@ for dir in os.listdir(INPUT_FOLDER):
 
                 name+=1
 
+                # a copy of the original image with random augmentation
                 image = augment(Image.fromarray(image))
                 manage_segmask(fs,name,path_segmask,path_sm)
                 manage_img(image, name, path_img)
@@ -167,6 +167,7 @@ for dir in os.listdir(INPUT_FOLDER):
 
                 name+=1
 
+                # copies of the original image with a different background and random augmentations
                 for bk in bk_list:
 
                     choice = random.randint(0,2)
@@ -174,24 +175,18 @@ for dir in os.listdir(INPUT_FOLDER):
 
                     if choice < 3:
 
-                        #masked_bk = cv2.bitwise_and(bk, cv2.merge([mask_not,mask_not,mask_not]))
-                        #aug_img = cv2.add(masked_bk, masked_img)
-
                         bk_a = cv2.cvtColor(bk, cv2.COLOR_RGB2RGBA)
                         
                         obj = Image.fromarray(img_a)
                         bkg = Image.fromarray(bk_a)
-                        
-                        #bkg.show()
+
                         bkg.alpha_composite(obj)
-                        #bkg.save('/Users/celu/Documents/robe_tesi/data_lab/bubu2.png')
 
                         if choice == 1:
                             aug_img = np.asarray(augment(bkg.convert('RGB')))
                         else:
                             aug_img = np.asarray(bkg.convert('RGB'))
 
-                        #print(fm)
                         manage_segmask(fs,name,path_segmask,path_sm)
                         manage_img(aug_img, name, path_img)
                         manage_yolo(fk, fm, name, path_yolo, dir)
